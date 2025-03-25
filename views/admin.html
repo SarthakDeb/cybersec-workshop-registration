@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Cybersecurity Workshop Registrations</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #0066cc;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cybersecurity Workshop</h1>
+            <p class="tagline">Admin Dashboard - Registration Data</p>
+        </header>
+
+        <div class="admin-section">
+            <h2>Registered Students</h2>
+            <table id="students-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>College</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>IP Address</th>
+                        <th>Browser</th>
+                        <th>Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody id="students-data">
+                    <!-- Data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 Cybersecurity Workshop. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tableBody = document.getElementById('students-data');
+            
+            try {
+                const response = await fetch('/api/students');
+                const students = await response.json();
+                
+                if (students.length > 0) {
+                    tableBody.innerHTML = students.map(student => `
+                        <tr>
+                            <td>${student.username}</td>
+                            <td>${student.college}</td>
+                            <td>${student.email}</td>
+                            <td>${student.phone}</td>
+                            <td>${student.ipAddress}</td>
+                            <td>${student.browser}</td>
+                            <td>${new Date(student.registeredAt).toLocaleString()}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No registrations yet</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Error loading data</td></tr>';
+            }
+        });
+    </script>
+</body>
+</html>
