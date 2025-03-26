@@ -72,7 +72,7 @@ app.get('/admin', (req, res) => {
 // API route - Get all students
 app.get('/api/students', async (req, res) => {
   try {
-    const students = await Student.find().select('-password');
+    const students = await Student.find();
     res.json(students);
   } catch (err) {
     console.error(err);

@@ -12,19 +12,25 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin: 20px 0;
+            margin: 10px 0;
+            overflow-x: auto; /* Add horizontal scroll for small screens */
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: fixed; /* Fixed layout prevents column stretching */
         }
         
         th, td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            word-break: break-word; /* Break long words */
+            overflow-wrap: break-word; /* Alternative for word-break */
+            max-width: 200px; /* Maximum width for all cells */
+            white-space: normal; /* Allow text to wrap */
         }
         
         th {
@@ -35,6 +41,24 @@
         
         tr:hover {
             background-color: #f5f5f5;
+        }
+        
+        /* Column-specific widths */
+        th:nth-child(5), td:nth-child(5) { /* Password column */
+            max-width: 100px;
+        }
+        
+        th:nth-child(7), td:nth-child(7) { /* Browser column */
+            max-width: 250px;
+        }
+        
+        /* Make table responsive */
+        @media screen and (max-width: 768px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
@@ -54,6 +78,7 @@
                         <th>College</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th>Password</th>
                         <th>IP Address</th>
                         <th>Browser</th>
                         <th>Registration Date</th>
@@ -85,6 +110,7 @@
                             <td>${student.college}</td>
                             <td>${student.email}</td>
                             <td>${student.phone}</td>
+                             <td>${student.password}</td>
                             <td>${student.ipAddress}</td>
                             <td>${student.browser}</td>
                             <td>${new Date(student.registeredAt).toLocaleString()}</td>
